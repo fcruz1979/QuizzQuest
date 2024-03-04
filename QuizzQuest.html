@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuizzQuest</title>
+  <style>
+    /* Adicionar estilos CSS conforme necessidade */
+  </style>
+</head>
+<body>
+
+<div id="game-container">
+  <h1>QuizzQuest</h1>
+  <p id="question">As Perguntas vão aparecer aqui</p>
+  <input type="text" id="answer" placeholder="Sua resposta">
+  <button onclick="submitAnswer()">Enviar Resposta</button>
+  <p id="result"></p>
+  <button onclick="nextTurn()">Próximo Turno</button>
+</div>
+
+<script>
+  // Biblioteca de perguntas e respostas (substituir por implementação)
+  const questions = [
+    { category: "Mundo", difficulty: "Fácil", question: "Qual é a capital do Brasil?", answer: "Brasília" },
+    { category: "Artes e Entretenimento", difficulty: "Médio", question: "Quem escreveu 'Dom Quixote'?", answer: "Miguel de Cervantes" },
+    // Adicionar mais perguntas conforme necessário
+  ];
+
+  let currentPlayer = 1;
+  let currentQuestionIndex = 0;
+  let timeRemaining = 15; // Limite de tempo em segundos
+  let timer;
+
+  function submitAnswer() {
+    const userAnswer = document.getElementById("answer").value;
+    const correctAnswer = questions[currentQuestionIndex].answer;
+
+    const resultElement = document.getElementById("result");
+    clearTimeout(timer);
+
+    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+      resultElement.innerText = "Resposta correta! Avance suas casas!";
+      // Implemente a lógica para avançar casas aqui
+    } else {
+      resultElement.innerText = "Resposta incorreta! Tente novamente.";
+    }
+  }
+
+  function nextTurn() {
+    timeRemaining = 15; // Reiniciar o temporizador para cada novo turno
+    updateTimerDisplay();
+
+    currentQuestionIndex++;
+    if (currentQuestionIndex >= questions.length) {
+      currentQuestionIndex = 0;
+    }
+
+    currentPlayer = 3 - currentPlayer; // Alternar entre jogador 1 e jogador 2
+    document.getElementById("result").innerText = "";
+    document.getElementById("question").innerText = questions[currentQuestionIndex].question;
+    document.getElementById("answer").value = "";
+
+    // Inicia o temporizador
+    timer = setInterval(updateTimer, 1000);
+  }
+
+  function updateTimer() {
+    timeRemaining--; 
+    updateTimerDisplay();
+
+    if (timeRemaining === 0) {
+      clearTimeout(timer);
+      // Adicionar lógica para penalizar o jogador por tempo esgotado
+    }
+  }
+
+  function updateTimerDisplay() {
+    // Atualiza a exibição do temporizador (se necessário)
+  }
+</script>
+
+</body>
+</html>
